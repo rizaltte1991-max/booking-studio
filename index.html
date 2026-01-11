@@ -1,0 +1,71 @@
+<script>
+const waNumber = "6282199327646"; // nomor kamu
+
+const hargaUmum = {
+1:100000,2:200000,3:300000,4:320000,5:370000,6:400000,
+7:350000,8:400000,9:450000,10:500000,11:440000,12:480000,
+13:520000,14:560000,15:600000,16:480000,17:510000,18:540000,
+19:570000,20:600000,21:630000,22:660000,23:690000,24:720000,
+25:750000,26:650000,27:675000,28:700000,29:725000,30:750000
+};
+
+let totalHarga = 0;
+
+function updateForm(){
+ const layanan = document.getElementById("layanan").value;
+ document.getElementById("formWisuda").style.display = layanan=="wisuda"?"block":"none";
+ document.getElementById("formUmum").style.display = layanan=="umum"?"block":"none";
+}
+
+function hitungWisuda(){
+ const paket = document.getElementById("paketWisuda").value;
+ const orang = parseInt(document.getElementById("orangWisuda").value) || 0;
+
+ if(paket=="family"){
+   totalHarga = 350000 + (orang>10?(orang-10)*25000:0);
+ }
+ if(paket=="plus"){
+   totalHarga = 675000 + (orang>12?(orang-12)*25000:0);
+ }
+
+ document.getElementById("total").innerText = "Total: Rp " + totalHarga.toLocaleString("id-ID");
+}
+
+function hitungUmum(){
+ const orang = document.getElementById("orangUmum").value;
+ if(hargaUmum[orang]){
+   totalHarga = hargaUmum[orang];
+   document.getElementById("total").innerText = "Total: Rp " + totalHarga.toLocaleString("id-ID");
+ }
+}
+
+function kirimWA(){
+ const nama = document.getElementById("nama").value;
+ const hp = document.getElementById("hp").value;
+ const layanan = document.getElementById("layanan").value;
+
+ let detail = "";
+
+ if(layanan=="wisuda"){
+   const paket = document.getElementById("paketWisuda").value;
+   const orang = document.getElementById("orangWisuda").value;
+   detail = "Paket: " + paket + "%0A" +
+            "Jumlah orang: " + orang;
+ }
+
+ if(layanan=="umum"){
+   const orang = document.getElementById("orangUmum").value;
+   detail = "Jumlah orang: " + orang;
+ }
+
+ const pesan =
+   "Halo Logaloga Studio%0A" +
+   "Nama: " + nama + "%0A" +
+   "WA: " + hp + "%0A" +
+   "Layanan: " + layanan + "%0A" +
+   detail + "%0A" +
+   "Total: Rp " + totalHarga.toLocaleString("id-ID");
+
+ window.open("https://wa.me/" + waNumber + "?text=" + pesan, "_blank");
+}
+</script>
